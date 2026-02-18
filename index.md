@@ -68,10 +68,10 @@ This website presents our DSC 180B capstone project in a public-facing format.
 ---
 
 ## Team
-- [Anish Kasam](akasam@ucsd.edu)
-- [Dhanvi Patel](dhp003@ucsd.edu)
-- [Krish Prasad](krprasad@ucsd.edu)
-- [Shou Tai Yue](syue@ucsd.edu)
+- **Anish Kasam** — [akasam@ucsd.edu](mailto:akasam@ucsd.edu)
+- **Dhanvi Patel** — [dhp003@ucsd.edu](mailto:dhp003@ucsd.edu)
+- **Krish Prasad** — [krprasad@ucsd.edu](mailto:krprasad@ucsd.edu)
+- **Shou Tai Yue** — [syue@ucsd.edu](mailto:syue@ucsd.edu)
 
 ---
 
