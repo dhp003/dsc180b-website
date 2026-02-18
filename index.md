@@ -5,6 +5,20 @@ This website presents our DSC 180B capstone project in a public-facing format.
 
 ---
 
+## Quick Navigation
+- [Overview](#overview)
+- [Introduction](#introduction)
+- [Background](#background)
+- [Research Question](#research-question)
+- [Methods](#methods)
+- [Results](#results)
+- [Key Takeaways](#key-takeaways)
+- [Impact and Implications](#impact-and-implications)
+- [Team](#team)
+- [Links](#links)
+
+---
+
 ## Overview
 - High-level summary of the project
 - What in-context learning (ICL) is
