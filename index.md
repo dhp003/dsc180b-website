@@ -39,6 +39,8 @@ In this project, we investigate whether this behavior depends on the **specific 
 
 Our goal is to understand the **tradeoff between efficiency and learning capability** in transformer architectures.
 
+---
+
 ## Introduction
 
 ### What is In-Context Learning?
@@ -51,15 +53,11 @@ x₁ → y₁
 x₂ → y₂  
 x₃ → y₃  
 
-followed by a new input:
+followed by a new input: x*
 
-x*
+The model must predict the corresponding output: y*
 
-The model must predict the corresponding output:
-
-y*
-
-Despite never seeing this exact task before, large transformer models can often infer the relationship between inputs and outputs from the examples and apply it to the query. This behavior is surprising because the model is not updating its weights. Instead, it appears to adapt purely through the computation performed during the forward pass. In other words, the model is effectively **learning at inference time from the prompt itself**.
+Despite never seeing this exact task before, large transformer models can often infer the relationship between inputs and outputs from the examples and apply it to the query. This behavior is surprising because the model is not updating its weights. Instead, it appears to adapt purely through the computation performed during the forward pass. In other words, the model is effectively learning at inference time from the prompt itself.
 
 ### What is Attention?
 
@@ -73,7 +71,7 @@ In practice, attention works by computing similarity scores between tokens using
 - **Key (K):** what information the token contains  
 - **Value (V):** the information that will be shared
 
-The similarity between queries and keys determines how strongly information from one token should influence another. The final representation of a token is therefore a **weighted combination of information from other tokens in the sequence**.
+The similarity between queries and keys determines how strongly information from one token should influence another. The final representation of a token is therefore a weighted combination of information from other tokens in the sequence.
 
 This mechanism is particularly important for ICL, because it allows the model to read example input–output pairs in the prompt and combine them to infer the relationship needed to solve the query task.
 
