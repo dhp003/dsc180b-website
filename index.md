@@ -21,7 +21,6 @@
 ## Quick Navigation
 - [Overview](#overview)
 - [Introduction](#introduction)
-- [Background](#background)
 - [Research Question](#research-question)
 - [Methods](#methods)
 - [Results](#results)
@@ -32,11 +31,53 @@
 
 ---
 
+## Overview
+
+Large language models (LLMs) often demonstrate **in-context learning (ICL)** which is the ability to infer a task from examples provided in the prompt without updating model parameters. Recent theoretical work suggests that attention mechanisms may implicitly implement optimization procedures such as gradient descent when solving simple tasks like linear regression.
+
+In this project, we investigate whether this behavior depends on the **specific structure of the attention mechanism**. We compare several attention variants, including standard softmax attention, linear attention, sparse attention, grouped-query attention, low-rank attention, and gated attention, under the **same experimental setup**.
+
+Our goal is to understand the **tradeoff between efficiency and learning capability** in transformer architectures.
+
 ## Introduction
 
-### Problem Statement
+### What is In-Context Learning?
 
-In-context learning is an interesting phenomenon that describes the ability of LLMs (transformers) to learn an input-output mapping from examples provided within the prompt. For example, if you provide a model a [todo][example of in-context learning]. 
+In-context learning is an interesting phenomenon that describes the ability of LLMs (transformers) to learn an input-output mapping from examples provided within the prompt. 
+
+For example, suppose a prompt contains several input-output examples of a function:
+
+x₁ → y₁  
+x₂ → y₂  
+x₃ → y₃  
+
+followed by a new input:
+
+x*
+
+The model must predict the corresponding output:
+
+y*
+
+Despite never seeing this exact task before, large transformer models can often infer the relationship between inputs and outputs from the examples and apply it to the query. This behavior is surprising because the model is not updating its weights. Instead, it appears to adapt purely through the computation performed during the forward pass. In other words, the model is effectively **learning at inference time from the prompt itself**.
+
+### What is Attention?
+
+Attention is the core mechanism that allows transformers to determine which parts of an input sequence are relevant when computing a representation for each token.
+
+Instead of processing tokens strictly from left to right, attention allows each token in the sequence to look at other tokens and determine how relevant they are.
+
+In practice, attention works by computing similarity scores between tokens using three learned vectors:
+
+- **Query (Q):** what information the token is looking for  
+- **Key (K):** what information the token contains  
+- **Value (V):** the information that will be shared
+
+The similarity between queries and keys determines how strongly information from one token should influence another. The final representation of a token is therefore a **weighted combination of information from other tokens in the sequence**.
+
+This mechanism is particularly important for ICL, because it allows the model to read example input–output pairs in the prompt and combine them to infer the relationship needed to solve the query task.
+
+### Problem Statement
 
 Previous research has shown that these models are able to perform in-context learning due to their attention mechanism. At a high level, attention allows transformers to selectively relate information across tokens, which is a key part of how they form useful contextual representations.
 
@@ -61,6 +102,22 @@ This begs the question: Do these more efficient attention mechanisms still suppo
 
 - **Researchers:** to study which architectural features support optimization-like in-context learning.
 - **Engineers:** to evaluate the tradeoff between model efficiency and adaptation ability in real deployments.
+
+---
+
+## Research Question
+
+Our central research question is:
+
+**How does the structure of the attention mechanism affect a transformer’s ability to perform in-context learning?**
+
+Specifically, we investigate whether different attention mechanisms:
+
+- achieve similar prediction performance on regression tasks
+- produce update directions aligned with gradient descent
+- exhibit tradeoffs between computational efficiency and learning capability.
+
+To investigate this question, we compare several alternative attention mechanisms under the same experimental setup. 
 
 ---
 
@@ -193,13 +250,19 @@ Following the token construction used in our codebase, each context token concat
 
 ### Project Scope & Limitations
 
-Within this project, we compare standard, grouped-query, sparse, linear, low rank, and gated attention. In order to compare them, we evaluated each variant on the same tasks:
+Within this project, we compare standard, grouped-query, sparse, linear, low-rank, and gated attention mechanisms under the same experimental setup.
 
-[todo][describe the experiments? over/under/sparse?]
+Each model is trained and evaluated on **synthetic linear regression tasks**, which allows us to directly compare model behavior with classical optimization methods such as least squares, LASSO, and gradient descent.
 
-However, our results are purely experimental, we do not analyze model parameters or have any mathematical arguments to justify our observations.
+However, this setup also introduces several limitations.
 
-Therefore, when interpreting our work, it's important to understand that these experiments are [todo][explain the shortcomings of our work]
+First, our experiments are conducted on **synthetic tasks rather than natural language data**, meaning our results may not directly transfer to large-scale language modeling settings.
+
+Second, our analysis is primarily **empirical**. While we measure prediction accuracy and alignment with gradient descent updates, we do not analyze model parameters or derive formal theoretical guarantees explaining the observed behaviors.
+
+Despite these limitations, this controlled setup allows us to isolate the role of the attention mechanism and study how architectural differences influence in-context learning behavior.
+
+Our results are purely experimental, we do not analyze model parameters or have any mathematical arguments to justify our observations.
 
 ---
 
