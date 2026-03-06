@@ -50,8 +50,9 @@ This begs the question: Do these more efficient attention mechanisms still suppo
   src="{{ 'assets/attention-slideshow.html' | relative_url }}"
   title="Attention slideshow"
   width="100%"
-  height="760"
-  style="border: 0; overflow: hidden;"
+  height="900"
+  scrolling="no"
+  style="border: 0; overflow: hidden; display: block;"
 ></iframe>
 
 Answering this question can influence the architecture of the next generation LLMs [todo][revise this, why should people care?]

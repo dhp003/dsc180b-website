@@ -227,7 +227,7 @@ footer { width: 270px; float: left; position: fixed; bottom: 50px; -webkit-font-
 
 .slideshow-frame {
   position: relative;
-  min-height: 520px;
+  min-height: 0px;
 }
 
 .slide {
@@ -511,7 +511,7 @@ footer { width: 270px; float: left; position: fixed; bottom: 50px; -webkit-font-
   }
 
   .slideshow-frame {
-    min-height: 700px;
+    min-height: 0;
   }
 
   .qkv-grid {
@@ -678,3 +678,23 @@ footer { width: 270px; float: left; position: fixed; bottom: 50px; -webkit-font-
     grid-template-columns: 1fr 1fr;
   }
 }
+  .slide {
+    display: none;
+  }
+
+  .slide.active {
+    display: block;
+  }
+
+  .viz {
+    min-height: 0;
+  }
+
+  .example-viz,
+  .qkv-viz,
+  .scores-viz,
+  .dense-attention-viz,
+  .sparse-attention-viz,
+  .output-viz {
+    min-height: auto;
+  }
