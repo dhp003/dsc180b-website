@@ -6,15 +6,23 @@
   <title>Attention Slideshow</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    body {
-      margin: 0;
-      background: transparent;
-      font-family: Arial, sans-serif;
-    }
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+    font-family: Arial, sans-serif;
+  }
+
+  .slideshow-wrapper {
+    padding: 0.5rem;
+  }
+</style>
 
     .slideshow-wrapper {
       padding: 0.5rem;
     }
+    
   </style>
 </head>
 <body>
@@ -306,5 +314,26 @@
   </div>
 
   <script src="js/intro-slideshow.js"></script>
+  <script>
+  function sendHeight() {
+    const height = document.documentElement.scrollHeight;
+    window.parent.postMessage(
+      { type: "set-slideshow-height", height: height },
+      "*"
+    );
+  }
+
+  window.addEventListener("load", sendHeight);
+  window.addEventListener("resize", sendHeight);
+
+  const observer = new MutationObserver(sendHeight);
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true
+  });
+
+  setTimeout(sendHeight, 100);
+</script>
 </body>
 </html>
