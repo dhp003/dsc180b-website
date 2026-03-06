@@ -151,8 +151,6 @@ More concretely, the following table identifies when and why to use each mechani
 
 ### Experiments
 
-### Experiments
-
 We compare all attention variants under the same training setup.
 
 1. **Train** each model on synthetic linear regression tasks.
