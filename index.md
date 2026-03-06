@@ -55,11 +55,12 @@ This begs the question: Do these more efficient attention mechanisms still suppo
   style="border: 0; overflow: hidden; display: block;"
 ></iframe>
 
-Answering this question can influence the architecture of the next generation LLMs [todo][revise this, why should people care?]
+> **Why this matters:** Efficient attention can reduce compute and memory costs, but it may also change how well a model learns from examples in the prompt. Our goal is to understand that tradeoff.
 
-### Target User & Stakeholders
+### Target Users & Stakeholders
 
-The target users and stakeholders for our project are researchers focused on transformer architectures and engineers building or selecting models for applications. For researchers, our experiements can serve as the starting point for assessing which attention mechanisms are best suited for performing in-context learning. Similarly, our experiments can influence design decisions for engineers who are attempting to deploy their own models, they can evaluate the performance of different attention mechanisms in the context of their use case and decide what works best.
+- **Researchers:** to study which architectural features support optimization-like in-context learning.
+- **Engineers:** to evaluate the tradeoff between model efficiency and adaptation ability in real deployments.
 
 ---
 
@@ -67,24 +68,110 @@ The target users and stakeholders for our project are researchers focused on tra
 
 ### Attention Variants
 
-Within this project, we compare standard, grouped-query, sparse, linear, low rank, and gated attention.
+We compare six attention mechanisms in the same transformer setup:
 
-- Standard Attention: [todo][1-2 sentence explanation]
-- Grouped Query Attention (GQA): [todo][1-2 sentence explanation]
-- Sparse Attention: [todo][1-2 sentence explanation]
-- Linear Attention: [todo][1-2 sentence explanation]
-- Low-Rank Attention: [todo][1-2 sentence explanation]
-- Gated Attention: [todo][1-2 sentence explanation]
+- **Standard Softmax:** full-context attention with softmax normalization; our baseline.
+- **GQA:** shares key-value projections across groups of query heads to reduce cost.
+- **Sparse:** restricts token-to-token interactions to improve efficiency.
+- **Linear:** removes softmax and is closely tied to gradient-descent interpretations of ICL.
+- **Low-Rank:** compresses attention into a lower-dimensional representation.
+- **Gated:** uses learned gates to selectively incorporate information.
+<div class="mechanism-grid">
+  <div class="mechanism-card">
+    <h4>Standard</h4>
+    <div class="mech-subtitle">Softmax baseline</div>
+    <div class="mech-row"><span>Softmax</span><strong>Yes</strong></div>
+    <div class="mech-row"><span>Global context</span><strong>Yes</strong></div>
+    <div class="mech-row"><span>Memory cost</span><strong>High</strong></div>
+    <div class="mech-row"><span>Main idea</span><strong>Full attention</strong></div>
+    <p>Baseline transformer attention with unrestricted token-to-token interaction.</p>
+  </div>
+
+  <div class="mechanism-card">
+    <h4>GQA</h4>
+    <div class="mech-subtitle">Shared KV heads</div>
+    <div class="mech-row"><span>Softmax</span><strong>Yes</strong></div>
+    <div class="mech-row"><span>Global context</span><strong>Yes</strong></div>
+    <div class="mech-row"><span>Memory cost</span><strong>Medium</strong></div>
+    <div class="mech-row"><span>Main idea</span><strong>Shared KV</strong></div>
+    <p>Reduces cost by letting multiple query heads share key and value projections.</p>
+  </div>
+
+  <div class="mechanism-card">
+    <h4>Sparse</h4>
+    <div class="mech-subtitle">Restricted connectivity</div>
+    <div class="mech-row"><span>Softmax</span><strong>Usually yes</strong></div>
+    <div class="mech-row"><span>Global context</span><strong>Limited</strong></div>
+    <div class="mech-row"><span>Memory cost</span><strong>Low</strong></div>
+    <div class="mech-row"><span>Main idea</span><strong>Fewer links</strong></div>
+    <p>Only a subset of token pairs interact, improving efficiency but reducing coverage.</p>
+  </div>
+
+  <div class="mechanism-card">
+    <h4>Linear</h4>
+    <div class="mech-subtitle">No softmax</div>
+    <div class="mech-row"><span>Softmax</span><strong>No</strong></div>
+    <div class="mech-row"><span>Global context</span><strong>Yes</strong></div>
+    <div class="mech-row"><span>Memory cost</span><strong>Low</strong></div>
+    <div class="mech-row"><span>Main idea</span><strong>Linear update</strong></div>
+    <p>Removes softmax and is closely connected to one-step gradient descent interpretations of ICL.</p>
+  </div>
+
+  <div class="mechanism-card">
+    <h4>Low-Rank</h4>
+    <div class="mech-subtitle">Compressed attention</div>
+    <div class="mech-row"><span>Softmax</span><strong>Yes</strong></div>
+    <div class="mech-row"><span>Global context</span><strong>Compressed</strong></div>
+    <div class="mech-row"><span>Memory cost</span><strong>Low</strong></div>
+    <div class="mech-row"><span>Main idea</span><strong>Projection</strong></div>
+    <p>Approximates full attention using a lower-dimensional summary of keys and values.</p>
+  </div>
+
+  <div class="mechanism-card">
+    <h4>Gated</h4>
+    <div class="mech-subtitle">Learned update control</div>
+    <div class="mech-row"><span>Softmax</span><strong>No</strong></div>
+    <div class="mech-row"><span>Global context</span><strong>Yes</strong></div>
+    <div class="mech-row"><span>Memory cost</span><strong>Low</strong></div>
+    <div class="mech-row"><span>Main idea</span><strong>Selective update</strong></div>
+    <p>Uses a learned gate to control how strongly new information changes the representation.</p>
+  </div>
+</div>
+
+More concretely, the following table identifies when and why to use each mechanism over others
+
+| Variant | Main idea | Why include it? |
+|---|---|---|
+| Standard | Full softmax attention | Baseline |
+| GQA | Shared KV heads | Efficiency |
+| Sparse | Limited connectivity | Scalability |
+| Linear | No softmax | GD connection |
+| Low-Rank | Compressed attention | Approximation |
+| Gated | Learned update control | Flexible dynamics |
 
 ### Experiments
 
-To effectively compare the various attention mechanisms, we selected various tasks, with the attention mechanism being the only changing variable [todo][reword]. This allows us to have a standardized setup to compare the models. The experiments are:
+### Experiments
 
-[todo][explain each experiment at a high level, setup, evaluation, etc.]
+We compare all attention variants under the same training setup.
+
+1. **Train** each model on synthetic linear regression tasks.
+2. **Evaluate** on underparameterized, overparameterized, and sparse regimes.
+3. **Compare** prediction error, gradient-descent alignment, and robustness.
+
+We study performance across three regimes:
+
+- **Underparameterized regression:** the number of informative examples is sufficient relative to the input dimension, so the task is well-constrained.
+- **Overparameterized regression:** the problem has more degrees of freedom, making generalization and implicit regularization more important.
+- **Sparse regression:** the true task depends on only a subset of features, allowing comparison to sparse classical baselines such as LASSO.
+
+For each task, the model receives several context input-output pairs along with a query input, and it must predict the missing query output. We evaluate attention variants using metrics such as prediction error on held-out tasks, alignment with a one-step gradient descent baseline, and robustness under perturbations such as scaling and noise. This setup allows us to test not only whether a model performs well, but also whether its behavior resembles an optimizer operating over the context.
 
 ### Data Generation
 
-[todo][dataset description: synthetic data generation]
+All models are trained and evaluated on synthetic linear regression tasks generated from the same procedure. For each task, we sample a new ground-truth linear map \(W^\star\) and generate inputs \(x\) from a zero-mean distribution, with outputs defined by \(y = W^\star x\). We then form a prompt consisting of several context pairs \((x_i, y_i)\) and one query input \(x_\ast\), where the model must predict the corresponding target \(y_\ast\).
+
+Following the token construction used in our codebase, each context token concatenates the input and output into a single representation, while the query token contains the query input paired with a zero placeholder for the missing output. A new regression task is sampled for every training example, which prevents memorization and forces the model to infer the task from the prompt itself. This synthetic setup is especially useful because it is simple enough to compare against analytic baselines such as least squares, LASSO, and one-step gradient descent, while still capturing the core structure of in-context learning.
 
 ---
 
