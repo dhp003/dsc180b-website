@@ -47,7 +47,7 @@ In order to address this, researchers came up with more efficient attention mech
 This begs the question: Do these more efficient attention mechanisms still support the same level of in-context learning as standard attention? What are the tradeoffs of using more efficient attention mechanisms?
 
 <iframe
-  src="./assets/attention-slideshow.html"
+  src="{{ 'assets/attention-slideshow.html' | relative_url }}"
   title="Attention slideshow"
   width="100%"
   height="760"
