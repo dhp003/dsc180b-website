@@ -38,17 +38,21 @@
 
 In-context learning is an interesting phenomenon that describes the ability of LLMs (transformers) to learn an input-output mapping from examples provided within the prompt. For example, if you provide a model a [todo][example of in-context learning]. 
 
-Previous research has shown that these models are able to perform in-context learning due to their attention mechanism. At a high level, attention is what allows these models to reason & emulate thinking [todo][this isn't completely true, maybe reword]. 
+Previous research has shown that these models are able to perform in-context learning due to their attention mechanism. At a high level, attention allows transformers to selectively relate information across tokens, which is a key part of how they form useful contextual representations.
 
 However, one of the main drawbacks of standard attention is that it grows quadratically as the input size increases. For example, take a prompt of 100 tokens, this would require 10,000 "attention connections". This was one of the main limitations with the first iteration of LLMs, the size of the prompt you could give it was capped. 
 
-[todo][generate a visualization showing standard dense attention]
-
 In order to address this, researchers came up with more efficient attention mechanisms that didn't grow quadratically with the input size. Although they were more efficient, with less "attention connections," they weren't as powerful. 
 
-[todo][generate a visualization showing a more efficient attention mechanism]
-
 This begs the question: Do these more efficient attention mechanisms still support the same level of in-context learning as standard attention? What are the tradeoffs of using more efficient attention mechanisms?
+
+<iframe
+  src="{{ '_site/assets/attention-slideshow.html' | relative_url }}"
+  title="Attention slideshow"
+  width="100%"
+  height="520"
+  style="border: 0; overflow: hidden;"
+></iframe>
 
 Answering this question can influence the architecture of the next generation LLMs [todo][revise this, why should people care?]
 
