@@ -233,6 +233,14 @@ Following the token construction used in our codebase, each context token concat
 - Analysis of performance in different regimes (e.g., underparameterized vs. overparameterized)
 - Identification of trade-offs and failure modes
 
+<iframe
+  src="{{ 'plots/interactive_plots.html' | relative_url }}"
+  width="100%"
+  height="900"
+  style="border:0; display:block;"
+  loading="lazy"
+></iframe>
+
 ---
 
 ## Key Takeaways
