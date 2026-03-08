@@ -19,22 +19,22 @@
   body {
     overflow-x: hidden;
   }
-  .wide-right {
-    width: calc(100% + 360px);
-    margin-right: -360px;
+  .plots-wrap {
+    width: 75vw;
+    max-width: 1200px;
+    margin: 12px 0 0;
   }
-  .wide-right iframe {
+  .plots-wrap iframe {
     width: 100%;
     height: 1100px;
     border: 0;
     display: block;
   }
-  @media (max-width: 640px) {
-    .wide-right {
+  @media (max-width: 900px) {
+    .plots-wrap {
       width: 100%;
-      margin-right: 0;
     }
-    .wide-right iframe {
+    .plots-wrap iframe {
       height: 1000px;
     }
   }
@@ -255,7 +255,9 @@ Following the token construction used in our codebase, each context token concat
 - Analysis of performance in different regimes (e.g., underparameterized vs. overparameterized)
 - Identification of trade-offs and failure modes
 
-<div class="wide-right">
+### Experiment Plots
+
+<div class="plots-wrap">
   <iframe
     src="{{ 'plots/interactive_plots.html' | relative_url }}"
     loading="lazy"
