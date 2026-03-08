@@ -228,32 +228,45 @@ More concretely, the following table identifies when and why to use each mechani
 
 ### Experiments
 
-We compare all attention variants under the same training setup.
+Four controlled sweeps are run on synthetic in‑context linear regression to isolate how attention structure shapes in‑context learning. All attention variants are evaluated under a matched training setup and the same evaluation metrics.
 
-1. **Train** each model on synthetic linear regression tasks.
-2. **Evaluate** on underparameterized, overparameterized, and sparse regimes.
-3. **Compare** prediction error, gradient-descent alignment, and robustness.
+**Common setup**
+- **Task:** in‑context linear regression with context pairs \((x_i, y_i)\) and a query \((x_\ast, 0)\)
+- **Input dimension:** \(d = 20\)
+- **Evaluation:** `num_eval_tasks = 1000`
+- **Metrics:** Mean Squared Error (MSE); cosine similarity between the model’s implied update and a one‑step gradient‑descent baseline
+- **Models:** Softmax, Linear Self (LSA), Kernelized Linear, Grouped‑Query (GQA), Gated Linear (GLA), Sparse Causal, Low‑Rank (k = 0.5–1.0)
 
-We study performance across three regimes:
+**1) Training‑Steps Sweep (Learning Curve)**
+- **Goal:** how performance evolves with optimization
+- **Parameters:** `num_layers = 8`, `n_points = 41`, `train_steps ∈ {0, 1k, 2k, 5k, 10k, 20k}`
 
-- **Underparameterized regression:** the number of informative examples is sufficient relative to the input dimension, so the task is well-constrained.
-- **Overparameterized regression:** the problem has more degrees of freedom, making generalization and implicit regularization more important.
-- **Sparse regression:** the true task depends on only a subset of features, allowing comparison to sparse classical baselines such as LASSO.
+**2) Layers Sweep (Depth Scaling)**
+- **Goal:** how ICL scales with depth
+- **Parameters:** `num_layers ∈ {2, 4, 8, 16, 32, 64}`, `n_points = 41`, training steps set uniformly (or step‑scheduled when shallow models use fewer steps)
 
-For each task, the model receives several context input-output pairs along with a query input, and it must predict the missing query output. We evaluate attention variants using metrics such as prediction error on held-out tasks, alignment with a one-step gradient descent baseline, and robustness under perturbations such as scaling and noise. This setup allows us to test not only whether a model performs well, but also whether its behavior resembles an optimizer operating over the context.
+**3) Context Sweep (Trained)**
+- **Goal:** effect of in‑context length after training
+- **Parameters:** `num_layers = 8`, `train_steps = 5k`, `n_points ∈ {5, 10, 20, 40, 80, 120, 160, 200}`
+
+**4) Context Sweep (Zero‑Train)**
+- **Goal:** in‑context behavior at random initialization
+- **Parameters:** `num_layers = 8`, `train_steps = 0`, `n_points ∈ {5, 10, 20, 40, 80, 120, 160, 200}`
 
 ### Data Generation
 
-All models are trained and evaluated on synthetic linear regression tasks generated from the same procedure. For each task, we sample a new ground-truth linear map \(W^\star\) and generate inputs \(x\) from a zero-mean distribution, with outputs defined by \(y = W^\star x\). We then form a prompt consisting of several context pairs \((x_i, y_i)\) and one query input \(x_\ast\), where the model must predict the corresponding target \(y_\ast\).
+Each task samples a fresh ground‑truth linear map \(W^\star\), draws inputs \(x\) from a zero‑mean distribution, and defines outputs \(y = W^\star x\). A prompt is constructed from several context pairs \((x_i, y_i)\) plus a query input \(x_\ast\). The query token is represented as \((x_\ast, 0)\), and the model must predict \(y_\ast\).
 
-Following the token construction used in our codebase, each context token concatenates the input and output into a single representation, while the query token contains the query input paired with a zero placeholder for the missing output. A new regression task is sampled for every training example, which prevents memorization and forces the model to infer the task from the prompt itself. This synthetic setup is especially useful because it is simple enough to compare against analytic baselines such as least squares, LASSO, and one-step gradient descent, while still capturing the core structure of in-context learning.
+A new regression task is sampled for every training example, preventing memorization and forcing learning from the prompt itself. The setup remains simple enough to compare against analytic baselines (least squares and one‑step GD) while still capturing the core in‑context learning structure.
 
 ---
 
 ## Results
-- Comparison of ICL performance across attention types
-- Analysis of performance in different regimes (e.g., underparameterized vs. overparameterized)
-- Identification of trade-offs and failure modes
+- MSE vs. training steps (learning dynamics)
+- MSE vs. depth (scaling with layers)
+- MSE vs. in‑context length (trained + zero‑train)
+- Cosine similarity to one‑step GD as an optimization‑alignment signal
+- Failure modes (e.g., sparse causal deviating under limited connectivity)
 
 ### Experiment Plots
 

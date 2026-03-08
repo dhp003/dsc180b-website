@@ -4542,14 +4542,14 @@
     }
 
     function labelMethod(method) {
-      if (method === "lsa") return "Linear Self-Attention";
-      if (method === "softmax") return "Softmax Attention";
-      if (method === "kernel") return "Kernelized Linear Attention";
-      if (method === "gla") return "Gated Linear Attention";
-      if (method === "gqa") return "Grouped-Query Attention";
-      if (method === "sparse") return "Sparse Causal Attention";
-      if (method.startsWith("lowrank_k")) return method.replace("lowrank_", "Low-rank Attention ");
-      if (method.startsWith("lowrank_block")) return method.replace("lowrank_", "Low-rank Attention ");
+      if (method === "lsa") return "Linear Self";
+      if (method === "softmax") return "Softmax";
+      if (method === "kernel") return "Kernelized Linear";
+      if (method === "gla") return "Gated Linear";
+      if (method === "gqa") return "Grouped-Query";
+      if (method === "sparse") return "Sparse Causal";
+      if (method.startsWith("lowrank_k")) return method.replace("lowrank_", "Low-rank ");
+      if (method.startsWith("lowrank_block")) return method.replace("lowrank_", "Low-rank ");
       return method;
     }
 
