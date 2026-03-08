@@ -18,12 +18,12 @@
     .toggle-all { margin-top: 10px; display: flex; gap: 8px; }
     .toggle-all button { padding: 4px 8px; border: 1px solid #bbb; background: #f3f3f3; cursor: pointer; border-radius: 4px; }
     .plot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-    .plot { width: 100%; height: 520px; }
+    .plot { width: 100%; height: 420px; }
 
     @media (max-width: 980px) {
       .tab-grid { grid-template-columns: 1fr; }
       .plot-grid { grid-template-columns: 1fr; }
-      .plot { height: 480px; }
+      .plot { height: 380px; }
     }
   </style>
 </head>
@@ -4480,6 +4480,7 @@
     };
 
     const LOWRANK_MODE = "auto";
+    const LOWRANK_ONLY_RATIO = "0.5";
 
     function collectMethods(results, lowrankMode) {
       const methods = new Set();
@@ -4493,9 +4494,10 @@
               const m = method.match(/lowrank_(?:block\d+_)?k([0-9.]+)/);
               if (m) {
                 const ratio = m[1];
+                if (ratio !== LOWRANK_ONLY_RATIO) {
+                  return;
+                }
                 methods.add(`lowrank_k${ratio}`);
-              } else {
-                methods.add(method);
               }
             } else {
               methods.add(method);
@@ -4538,6 +4540,9 @@
         return methodKey;
       }
       const ratio = methodKey.replace("lowrank_k", "");
+      if (ratio !== LOWRANK_ONLY_RATIO) {
+        return null;
+      }
       const normalKey = `lowrank_k${ratio}`;
       if (Object.prototype.hasOwnProperty.call(r, `mse_${normalKey}_mean`)) {
         return normalKey;
@@ -4601,7 +4606,7 @@
         line: { color: colorMap["gd"] },
         marker: { color: colorMap["gd"] },
         error_y: { type: "data", array: mseGd.stds, visible: true },
-        showlegend: true,
+        showlegend: false,
       });
       traceMap["gd"] = { mse: [0], cos: [] };
 
@@ -4643,7 +4648,7 @@
         mode: "lines",
         name: "Perfect Alignment",
         line: { dash: "dash", color: "red" },
-        showlegend: true,
+        showlegend: false,
       });
       traceMap["perfect"] = { mse: [], cos: [cosPerfectIdx] };
 
@@ -4651,10 +4656,9 @@
         title: `${titlePrefix} MSE`,
         xaxis: { title: xLabel },
         yaxis: { title: "Mean Squared Error" },
-        margin: { l: 50, r: 30, t: 50, b: 50 },
-        height: 520,
-        showlegend: true,
-        legend: { orientation: "h", y: -0.25, x: 0, xanchor: "left" },
+        margin: { l: 50, r: 30, t: 40, b: 50 },
+        height: 420,
+        showlegend: false,
       };
       if (xRange) {
         mseLayout.xaxis.range = xRange;
@@ -4664,10 +4668,9 @@
         title: `${titlePrefix} Cosine Similarity`,
         xaxis: { title: xLabel },
         yaxis: { title: "Cosine Similarity" },
-        margin: { l: 50, r: 30, t: 50, b: 50 },
-        height: 520,
-        showlegend: true,
-        legend: { orientation: "h", y: -0.25, x: 0, xanchor: "left" },
+        margin: { l: 50, r: 30, t: 40, b: 50 },
+        height: 420,
+        showlegend: false,
       };
       if (xRange) {
         cosLayout.xaxis.range = xRange;
