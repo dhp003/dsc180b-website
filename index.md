@@ -16,6 +16,32 @@
       bottom: auto !important;
     }
   }
+  body {
+    overflow-x: hidden;
+  }
+  .full-bleed {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+  .full-bleed iframe {
+    width: 100%;
+    height: 900px;
+    border: 0;
+    display: block;
+  }
+  @media (max-width: 640px) {
+    .full-bleed {
+      width: 100%;
+      left: 0;
+      right: 0;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
 </style>
 
 ## Quick Navigation
@@ -233,13 +259,12 @@ Following the token construction used in our codebase, each context token concat
 - Analysis of performance in different regimes (e.g., underparameterized vs. overparameterized)
 - Identification of trade-offs and failure modes
 
-<iframe
-  src="{{ 'plots/interactive_plots.html' | relative_url }}"
-  width="100%"
-  height="900"
-  style="border:0; display:block;"
-  loading="lazy"
-></iframe>
+<div class="full-bleed">
+  <iframe
+    src="{{ 'plots/interactive_plots.html' | relative_url }}"
+    loading="lazy"
+  ></iframe>
+</div>
 
 ---
 
