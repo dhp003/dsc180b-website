@@ -29,7 +29,7 @@
       box-shadow: 0 4px 10px rgba(30,90,214,0.28);
     }
     .tab-content { margin-top: 12px; width: 100%; }
-    .tab-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 16px; align-items: start; width: 100%; }
+    .tab-grid { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 16px; align-items: start; width: 100%; }
     .sidebar {
       border: 1px solid #ddd;
       padding: 10px;
@@ -37,13 +37,14 @@
       background: #fafafa;
       height: fit-content;
       align-self: center;
+      grid-column: 2;
     }
     .sidebar-title { font-weight: 600; margin-bottom: 8px; }
     .chk { display: block; margin-bottom: 6px; font-size: 14px; }
     .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 8px 0 6px; border: 1px solid #333; }
     .toggle-all { margin-top: 10px; display: flex; gap: 8px; }
     .toggle-all button { padding: 4px 8px; border: 1px solid #bbb; background: #f3f3f3; cursor: pointer; border-radius: 4px; }
-    .plot-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .plot-grid { display: grid; grid-template-columns: 1fr; gap: 16px; grid-column: 1; }
     .plot { width: 100%; height: 420px; }
 
     @media (max-width: 760px) {
