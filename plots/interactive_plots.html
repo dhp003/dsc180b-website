@@ -4542,19 +4542,19 @@
     }
 
     function labelMethod(method) {
-      if (method === "lsa") return "LSA";
-      if (method === "softmax") return "Softmax";
-      if (method === "kernel") return "Kernelized Linear";
-      if (method === "gla") return "GLA";
-      if (method === "gqa") return "GQA";
-      if (method === "sparse") return "Sparse Causal";
-      if (method.startsWith("lowrank_k")) return method.replace("lowrank_", "Low-rank ");
-      if (method.startsWith("lowrank_block")) return method.replace("lowrank_", "Low-rank ");
+      if (method === "lsa") return "Linear Self-Attention";
+      if (method === "softmax") return "Softmax Attention";
+      if (method === "kernel") return "Kernelized Linear Attention";
+      if (method === "gla") return "Gated Linear Attention";
+      if (method === "gqa") return "Grouped-Query Attention";
+      if (method === "sparse") return "Sparse Causal Attention";
+      if (method.startsWith("lowrank_k")) return method.replace("lowrank_", "Low-rank Attention ");
+      if (method.startsWith("lowrank_block")) return method.replace("lowrank_", "Low-rank Attention ");
       return method;
     }
 
     function methodLabel(methodKey) {
-      if (methodKey === "gd") return "T-step GD";
+      if (methodKey === "gd") return "T-step Gradient Descent";
       return labelMethod(methodKey);
     }
 
@@ -4686,7 +4686,7 @@
       traceMap["perfect"] = { mse: [], cos: [cosPerfectIdx] };
 
       const mseLayout = {
-        title: `${titlePrefix} MSE`,
+        title: `${titlePrefix} Mean Squared Error`,
         xaxis: { title: xLabel },
         yaxis: { title: "Mean Squared Error" },
         margin: { l: 50, r: 30, t: 40, b: 50 },
