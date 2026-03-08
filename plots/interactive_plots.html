@@ -6,7 +6,8 @@
   <title>Interactive Experiment Plots</title>
   <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0 0 8px; }
+    body { font-family: Arial, sans-serif; margin: 0; }
+    #app { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 8px 8px; }
     #tab-buttons { display: flex; gap: 10px; width: 100%; }
     .tab-btn {
       flex: 1;
@@ -28,8 +29,17 @@
       box-shadow: 0 4px 10px rgba(30,90,214,0.28);
     }
     .tab-content { margin-top: 12px; width: 100%; }
-    .tab-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 16px; align-items: start; width: 100%; }
-    .sidebar { border: 1px solid #ddd; padding: 10px; border-radius: 6px; background: #fafafa; height: fit-content; align-self: center; }
+    .tab-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 16px; align-items: stretch; width: 100%; }
+    .sidebar {
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 6px;
+      background: #fafafa;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
     .sidebar-title { font-weight: 600; margin-bottom: 8px; }
     .chk { display: block; margin-bottom: 6px; font-size: 14px; }
     .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 8px 0 6px; border: 1px solid #333; }
@@ -42,7 +52,7 @@
       #tab-buttons { flex-wrap: wrap; }
       .tab-btn { flex: 1 1 48%; }
       .tab-grid { grid-template-columns: 1fr; }
-      .sidebar { display: flex; flex-wrap: wrap; gap: 6px 12px; }
+      .sidebar { display: flex; flex-wrap: wrap; gap: 6px 12px; height: auto; justify-content: flex-start; }
       .sidebar-title { width: 100%; }
       .chk { width: 48%; margin-bottom: 0; }
       .toggle-all { width: 100%; }
@@ -52,9 +62,11 @@
   </style>
 </head>
 <body>
-  <div id="tab-buttons"></div>
-  <div id="tab-contents"></div>
-  <p>Tip: use the checkboxes to toggle each attention mechanism.</p>
+  <div id="app">
+    <div id="tab-buttons"></div>
+    <div id="tab-contents"></div>
+    <p>Tip: use the checkboxes to toggle each attention mechanism.</p>
+  </div>
 
   <script id="data-steps" type="application/json">
 [

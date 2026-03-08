@@ -22,7 +22,7 @@
   .plots-wrap {
     width: 75vw;
     max-width: 1200px;
-    margin: 12px 0 0;
+    margin: 12px auto 0;
   }
   .plots-wrap iframe {
     width: 100%;
