@@ -20,7 +20,7 @@
     overflow-x: hidden;
   }
   .plots-wrap {
-    width: 75vw;
+    width: 75%;
     max-width: 1200px;
     margin: 12px auto 0;
   }
