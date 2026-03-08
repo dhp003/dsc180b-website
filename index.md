@@ -262,14 +262,6 @@ A new regression task is sampled for every training example, preventing memoriza
 ---
 
 ## Results
-- Training‑steps sweep (learning dynamics)
-- Layers sweep (scaling with depth)
-- Context sweep (trained + zero‑train)
-- Mean Squared Error (MSE) as the primary prediction metric
-- Cosine similarity to one‑step GD as an optimization‑alignment metric
-
-### Experiment Plots
-
 <div class="plots-wrap">
   <iframe
     src="{{ 'plots/interactive_plots.html' | relative_url }}"
