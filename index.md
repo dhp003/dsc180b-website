@@ -19,27 +19,23 @@
   body {
     overflow-x: hidden;
   }
-  .full-bleed {
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+  .wide-right {
+    width: calc(100% + 360px);
+    margin-right: -360px;
   }
-  .full-bleed iframe {
+  .wide-right iframe {
     width: 100%;
-    height: 900px;
+    height: 1100px;
     border: 0;
     display: block;
   }
   @media (max-width: 640px) {
-    .full-bleed {
+    .wide-right {
       width: 100%;
-      left: 0;
-      right: 0;
-      margin-left: 0;
       margin-right: 0;
+    }
+    .wide-right iframe {
+      height: 1000px;
     }
   }
 </style>
@@ -259,7 +255,7 @@ Following the token construction used in our codebase, each context token concat
 - Analysis of performance in different regimes (e.g., underparameterized vs. overparameterized)
 - Identification of trade-offs and failure modes
 
-<div class="full-bleed">
+<div class="wide-right">
   <iframe
     src="{{ 'plots/interactive_plots.html' | relative_url }}"
     loading="lazy"

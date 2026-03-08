@@ -6,7 +6,8 @@
   <title>Interactive Experiment Plots</title>
   <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 12px; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0 0 8px; }
+    .page-title { font-size: 20px; font-weight: 700; margin: 0 0 10px; }
     #tab-buttons { display: flex; gap: 10px; width: 100%; }
     .tab-btn {
       flex: 1;
@@ -35,7 +36,7 @@
     .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 8px 0 6px; border: 1px solid #333; }
     .toggle-all { margin-top: 10px; display: flex; gap: 8px; }
     .toggle-all button { padding: 4px 8px; border: 1px solid #bbb; background: #f3f3f3; cursor: pointer; border-radius: 4px; }
-    .plot-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .plot-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
     .plot { width: 100%; height: 420px; }
 
     @media (max-width: 760px) {
@@ -52,7 +53,7 @@
   </style>
 </head>
 <body>
-  <h2>Interactive Experiment Plots</h2>
+  <div class="page-title">Experiment Plots</div>
   <div id="tab-buttons"></div>
   <div id="tab-contents"></div>
   <p>Tip: use the checkboxes to toggle each attention mechanism.</p>
