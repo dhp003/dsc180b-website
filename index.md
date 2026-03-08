@@ -287,6 +287,9 @@ A new regression task is sampled for every training example, preventing memoriza
 - Efficiency vs. capability trade-offs
 - Potential applications or future work
 
+### Applications and Practical Impact
+In‑context learning enables models to adapt at inference time without retraining. This is essential for few‑shot classification, rapid domain adaptation, retrieval‑augmented QA, tool use, code completion with evolving APIs, and personalized assistants that pick up user preferences from short prompts. Efficient attention variants matter because these applications benefit most from longer prompts, more examples, more documents, and richer context. If an attention mechanism preserves ICL while reducing memory and compute, it expands the usable context window and makes prompt‑driven behavior more scalable and cost‑effective.
+
 ### Project Scope & Limitations
 
 Within this project, we compare standard, grouped-query, sparse, linear, low-rank, and gated attention mechanisms under the same experimental setup.
