@@ -320,6 +320,6 @@ Efficient attention variants matter because these applications benefit most from
 ---
 
 ## Links
-- Project report PDF (to be added)
+- [Project report PDF](https://github.com/Shou-Yue/Incontext-Learning-of-Attention-Mechanisms/blob/main/artifacts/DSC_180B_Capstone_Report_A11.pdf)
 - [Code repository](https://github.com/Shou-Yue/Incontext-Learning-of-Attention-Mechanisms/tree/main)
-- Poster or presentation (to be added)
+- [Poster or presentation](https://github.com/Shou-Yue/Incontext-Learning-of-Attention-Mechanisms/blob/main/artifacts/DSC%20180%20A11%20Capstone%20Poster.pdf)
