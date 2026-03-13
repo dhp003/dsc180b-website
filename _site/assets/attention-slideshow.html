@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attention Slideshow</title>
+  <link rel="stylesheet" href="css/style.css" />
+ <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+    font-family: Arial, sans-serif;
+  }
+
+  body {
+    height: auto;
+  }
+
+  .slideshow-wrapper {
+    padding: 0.5rem;
+  }
+</style>
+    
+  </style>
+</head>
+<body>
+  <div class="slideshow-wrapper">
+    <div class="intro-slideshow" id="attention-slideshow" aria-label="Attention mechanism visualization">
+      <div class="slideshow-frame">
+
+        <div class="slide active" data-slide="0">
+          <div class="slide-text">
+            <h4>Slide 1 — Tokens in the Prompt</h4>
+            <p>
+              Consider the input sequence <strong>"The cat sat on the mat"</strong>.
+              A transformer first converts each token into a vector representation.
+              Attention then determines which other tokens each token should focus on.
+            </p>
+          </div>
+
+          <div class="viz example-viz" aria-hidden="true">
+            <div class="example-title">Input tokens</div>
+            <div class="token-sequence large-sequence">
+              <div class="token word-token">The</div>
+              <div class="token word-token highlight-token">cat</div>
+              <div class="token word-token">sat</div>
+              <div class="token word-token">on</div>
+              <div class="token word-token">the</div>
+              <div class="token word-token">mat</div>
+            </div>
+            <p class="viz-caption">
+              We will follow the token <strong>"cat"</strong> and show how it attends to the rest of the sequence.
+            </p>
+          </div>
+        </div>
+
+        <div class="slide" data-slide="1">
+          <div class="slide-text">
+            <h4>Slide 2 — Query, Key, and Value Vectors</h4>
+            <p>
+              For each token, the model computes three vectors:
+              <strong>query (Q)</strong>, <strong>key (K)</strong>, and <strong>value (V)</strong>.
+              The query of one token is compared with the keys of other tokens to decide how much attention to pay to them.
+            </p>
+          </div>
+
+          <div class="viz qkv-viz" aria-hidden="true">
+            <div class="qkv-grid">
+              <div class="qkv-header">Token</div>
+              <div class="qkv-header">Query (Q)</div>
+              <div class="qkv-header">Key (K)</div>
+              <div class="qkv-header">Value (V)</div>
+
+              <div class="qkv-cell token-name">The</div>
+              <div class="qkv-cell">[0.2, 0.1, 0.0]</div>
+              <div class="qkv-cell">[0.1, 0.3, 0.1]</div>
+              <div class="qkv-cell">[0.2, 0.1, 0.4]</div>
+
+              <div class="qkv-cell token-name active-row">cat</div>
+              <div class="qkv-cell active-row">[0.8, 0.4, 0.2]</div>
+              <div class="qkv-cell active-row">[0.7, 0.5, 0.1]</div>
+              <div class="qkv-cell active-row">[0.9, 0.2, 0.3]</div>
+
+              <div class="qkv-cell token-name">sat</div>
+              <div class="qkv-cell">[0.6, 0.5, 0.1]</div>
+              <div class="qkv-cell">[0.8, 0.4, 0.2]</div>
+              <div class="qkv-cell">[0.7, 0.6, 0.2]</div>
+
+              <div class="qkv-cell token-name">on</div>
+              <div class="qkv-cell">[0.1, 0.7, 0.3]</div>
+              <div class="qkv-cell">[0.2, 0.8, 0.2]</div>
+              <div class="qkv-cell">[0.1, 0.6, 0.3]</div>
+
+              <div class="qkv-cell token-name">the</div>
+              <div class="qkv-cell">[0.2, 0.2, 0.1]</div>
+              <div class="qkv-cell">[0.2, 0.3, 0.2]</div>
+              <div class="qkv-cell">[0.3, 0.2, 0.2]</div>
+
+              <div class="qkv-cell token-name">mat</div>
+              <div class="qkv-cell">[0.5, 0.6, 0.2]</div>
+              <div class="qkv-cell">[0.6, 0.7, 0.1]</div>
+              <div class="qkv-cell">[0.8, 0.5, 0.4]</div>
+            </div>
+            <p class="viz-caption">
+              These numbers are illustrative. They show the structure of the computation, not values from a trained model.
+            </p>
+          </div>
+        </div>
+
+        <div class="slide" data-slide="2">
+          <div class="slide-text">
+            <h4>Slide 3 — Compute Attention Scores for "cat"</h4>
+            <p>
+              The query vector for <strong>"cat"</strong> is compared with every key vector.
+              Larger similarity means stronger attention. After normalization, this becomes a set of attention weights.
+            </p>
+          </div>
+
+          <div class="viz scores-viz" aria-hidden="true">
+            <div class="example-title">Dense attention weights from "cat"</div>
+            <div class="score-list">
+              <div class="score-row">
+                <span class="score-label">cat → The</span>
+                <div class="score-bar"><div class="score-fill w1"></div></div>
+                <span class="score-value">0.08</span>
+              </div>
+              <div class="score-row">
+                <span class="score-label">cat → cat</span>
+                <div class="score-bar"><div class="score-fill w3"></div></div>
+                <span class="score-value">0.18</span>
+              </div>
+              <div class="score-row">
+                <span class="score-label">cat → sat</span>
+                <div class="score-bar"><div class="score-fill w5"></div></div>
+                <span class="score-value">0.27</span>
+              </div>
+              <div class="score-row">
+                <span class="score-label">cat → on</span>
+                <div class="score-bar"><div class="score-fill w2"></div></div>
+                <span class="score-value">0.10</span>
+              </div>
+              <div class="score-row">
+                <span class="score-label">cat → the</span>
+                <div class="score-bar"><div class="score-fill w1"></div></div>
+                <span class="score-value">0.07</span>
+              </div>
+              <div class="score-row">
+                <span class="score-label">cat → mat</span>
+                <div class="score-bar"><div class="score-fill w4"></div></div>
+                <span class="score-value">0.30</span>
+              </div>
+            </div>
+            <p class="viz-caption">
+              In this example, <strong>"cat"</strong> pays the most attention to <strong>"sat"</strong> and <strong>"mat"</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="slide" data-slide="3">
+          <div class="slide-text">
+            <h4>Slide 4 — Dense Attention Output</h4>
+            <p>
+              In standard dense attention, <strong>"cat"</strong> can compare itself with
+              <strong>every token</strong>. The output vector is the weighted sum of all value vectors.
+            </p>
+          </div>
+
+          <div class="viz dense-attention-viz" aria-hidden="true">
+            <div class="token-row top-row" id="dense-top"></div>
+            <div class="connection-layer" id="dense-connections"></div>
+            <div class="token-row bottom-row" id="dense-bottom"></div>
+          </div>
+
+          <div class="vector-card">
+            <div class="vector-title">Dense weights used</div>
+            <div class="vector-equation">
+              0.08·V(The) + 0.18·V(cat) + 0.27·V(sat) + 0.10·V(on) + 0.07·V(the) + 0.30·V(mat)
+            </div>
+            <div class="vector-grid">
+              <div class="vector-box">
+                <div class="vector-label">Output<sub>dense</sub>(cat)</div>
+                <div class="vector-value">[0.638, 0.430, 0.304]</div>
+              </div>
+              <div class="vector-box">
+                <div class="vector-label">Interpretation</div>
+                <div class="vector-text">
+                  The output keeps some information from <strong>all</strong> tokens, including
+                  <strong>"on"</strong> and the second <strong>"the"</strong>.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide" data-slide="4">
+          <div class="slide-text">
+            <h4>Slide 5 — Sparse / Efficient Attention Output</h4>
+            <p>
+              In an efficient attention mechanism, <strong>"cat"</strong> may only attend to
+              a restricted set of tokens. Here, we keep only <strong>The</strong>, <strong>cat</strong>,
+              <strong>sat</strong>, and <strong>mat</strong>, then renormalize the weights.
+            </p>
+          </div>
+
+          <div class="viz sparse-attention-viz" aria-hidden="true">
+            <div class="token-row top-row" id="sparse-top"></div>
+            <div class="connection-layer" id="sparse-connections"></div>
+            <div class="token-row bottom-row" id="sparse-bottom"></div>
+          </div>
+
+          <div class="vector-card">
+            <div class="vector-title">Sparse weights used</div>
+            <div class="vector-equation">
+              0.14·V(The) + 0.21·V(cat) + 0.31·V(sat) + 0.34·V(mat)
+            </div>
+            <div class="vector-grid">
+              <div class="vector-box">
+                <div class="vector-label">Output<sub>sparse</sub>(cat)</div>
+                <div class="vector-value">[0.706, 0.412, 0.317]</div>
+              </div>
+              <div class="vector-box">
+                <div class="vector-label">Interpretation</div>
+                <div class="vector-text">
+                  The output is more concentrated on <strong>"sat"</strong> and <strong>"mat"</strong>,
+                  but it drops the contributions from <strong>"on"</strong> and the second <strong>"the"</strong>.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide" data-slide="5">
+          <div class="slide-text">
+            <h4>Slide 6 — Compare Dense vs Sparse Output Vectors</h4>
+            <p>
+              The two attention mechanisms produce similar but not identical contextualized vectors.
+              The difference comes from which value vectors were allowed to contribute.
+            </p>
+          </div>
+
+          <div class="viz output-viz" aria-hidden="true">
+            <div class="compare-grid">
+              <div class="compare-card">
+                <div class="compare-title">Dense attention</div>
+                <div class="compare-vector">[0.638, 0.430, 0.304]</div>
+              </div>
+
+              <div class="compare-card">
+                <div class="compare-title">Sparse attention</div>
+                <div class="compare-vector">[0.706, 0.412, 0.317]</div>
+              </div>
+
+              <div class="compare-card">
+                <div class="compare-title">Difference (sparse − dense)</div>
+                <div class="compare-vector">[+0.068, −0.018, +0.013]</div>
+              </div>
+            </div>
+
+            <div class="comparison-table">
+              <div class="comparison-row comparison-header">
+                <div>Dimension</div>
+                <div>Dense</div>
+                <div>Sparse</div>
+                <div>Change</div>
+              </div>
+              <div class="comparison-row">
+                <div>1</div>
+                <div>0.638</div>
+                <div>0.706</div>
+                <div>+0.068</div>
+              </div>
+              <div class="comparison-row">
+                <div>2</div>
+                <div>0.430</div>
+                <div>0.412</div>
+                <div>−0.018</div>
+              </div>
+              <div class="comparison-row">
+                <div>3</div>
+                <div>0.304</div>
+                <div>0.317</div>
+                <div>+0.013</div>
+              </div>
+            </div>
+
+            <div class="context-box">
+              <div class="context-title">Takeaway</div>
+              <p>
+                Dense attention preserves weaker contributions from every token, while sparse attention
+                keeps only selected interactions. That makes the sparse output cheaper to compute,
+                but it can shift the final contextual representation.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="slideshow-controls">
+        <button class="slide-btn prev-btn" type="button" aria-label="Previous slide">← Prev</button>
+        <div class="slide-dots" role="tablist" aria-label="Slideshow navigation">
+          <button class="dot active" type="button" data-target="0" aria-label="Go to slide 1"></button>
+          <button class="dot" type="button" data-target="1" aria-label="Go to slide 2"></button>
+          <button class="dot" type="button" data-target="2" aria-label="Go to slide 3"></button>
+          <button class="dot" type="button" data-target="3" aria-label="Go to slide 4"></button>
+          <button class="dot" type="button" data-target="4" aria-label="Go to slide 5"></button>
+          <button class="dot" type="button" data-target="5" aria-label="Go to slide 6"></button>
+        </div>
+        <button class="slide-btn next-btn" type="button" aria-label="Next slide">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/intro-slideshow.js"></script>
+  <script>
+  function sendHeight() {
+    const height = document.documentElement.scrollHeight;
+    window.parent.postMessage(
+      { type: "set-slideshow-height", height: height },
+      "*"
+    );
+  }
+
+  window.addEventListener("load", sendHeight);
+  window.addEventListener("resize", sendHeight);
+
+  const observer = new MutationObserver(sendHeight);
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true
+  });
+
+  setTimeout(sendHeight, 100);
+</script>
+</body>
+</html>

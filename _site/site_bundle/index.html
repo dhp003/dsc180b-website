@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Plotly Bundle for GitHub Pages (Option B) | What Enables In-Context Learning In Transformers?</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Plotly Bundle for GitHub Pages (Option B)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An Analysis of Attention Mechanisms" />
+<meta property="og:description" content="An Analysis of Attention Mechanisms" />
+<link rel="canonical" href="http://localhost:4000/site_bundle/" />
+<meta property="og:url" content="http://localhost:4000/site_bundle/" />
+<meta property="og:site_name" content="What Enables In-Context Learning In Transformers?" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Plotly Bundle for GitHub Pages (Option B)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"An Analysis of Attention Mechanisms","headline":"Plotly Bundle for GitHub Pages (Option B)","url":"http://localhost:4000/site_bundle/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/assets/css/style.css?v=4501294e0a35582495d80dbed14649dfad5c3957">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1><a href="http://localhost:4000/">What Enables In-Context Learning In Transformers?</a></h1>
+
+        
+
+        <p>An Analysis of Attention Mechanisms</p>
+
+        
+
+        
+
+        
+      </header>
+      <section>
+
+      <h1 id="plotly-bundle-for-github-pages-option-b">Plotly Bundle for GitHub Pages (Option B)</h1>
+
+<p>This bundle contains the <strong>results JSONs</strong> and the <strong>Plotly builder script</strong> so you can rebuild the interactive HTML locally (or via GitHub Actions) and then commit the generated HTML to your GitHub Pages repo.</p>
+
+<h2 id="contents">Contents</h2>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">plot_interactive_experiments.py</code> — builds <code class="language-plaintext highlighter-rouge">interactive_plots.html</code></li>
+  <li><code class="language-plaintext highlighter-rouge">results/exp_steps_sweep/all_results.json</code></li>
+  <li><code class="language-plaintext highlighter-rouge">results/exp_layers_sweep/all_results.json</code></li>
+  <li><code class="language-plaintext highlighter-rouge">results/exp_context_sweep/all_results.json</code></li>
+  <li><code class="language-plaintext highlighter-rouge">results/exp_context_sweep_zero/all_results.json</code></li>
+  <li><code class="language-plaintext highlighter-rouge">requirements_plot.txt</code> — minimal deps for the plotting script</li>
+</ul>
+
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+  <li>Python 3.10+</li>
+  <li><code class="language-plaintext highlighter-rouge">pip install -r requirements_plot.txt</code></li>
+</ul>
+
+<h2 id="build-the-html">Build the HTML</h2>
+<p>From the repository where you copy this bundle:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 plot_interactive_experiments.py <span class="se">\</span>
+  <span class="nt">--steps_results</span> results/exp_steps_sweep/all_results.json <span class="se">\</span>
+  <span class="nt">--layers_results</span> results/exp_layers_sweep/all_results.json <span class="se">\</span>
+  <span class="nt">--context_results</span> results/exp_context_sweep/all_results.json <span class="se">\</span>
+  <span class="nt">--context_zero_results</span> results/exp_context_sweep_zero/all_results.json <span class="se">\</span>
+  <span class="nt">--output_dir</span> docs/plots
+</code></pre></div></div>
+
+<p>This generates:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">docs/plots/interactive_plots.html</code></li>
+</ul>
+
+<h2 id="embed-in-the-github-pages-site">Embed in the GitHub Pages site</h2>
+<p>Add a link in the <strong>Results</strong> section (or wherever you want the graphs) to:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>plots/interactive_plots.html
+</code></pre></div></div>
+
+<p>Example:</p>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"plots/interactive_plots.html"</span><span class="nt">&gt;</span>Interactive Experiment Plots<span class="nt">&lt;/a&gt;</span>
+</code></pre></div></div>
+
+<p>Note: GitHub Pages is static, so the Python script must be run <strong>locally</strong> or in CI. The site only serves the generated HTML.</p>
+
+
+      </section>
+      <footer>
+        
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="/assets/js/scale.fix.js"></script>
+  </body>
+</html>

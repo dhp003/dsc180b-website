@@ -101,7 +101,7 @@ This mechanism is particularly important for ICL, because it allows the model to
 
 Previous research has shown that these models are able to perform in-context learning due to their attention mechanism. At a high level, attention allows transformers to selectively relate information across tokens, which is a key part of how they form useful contextual representations.
 
-However, one of the main drawbacks of standard attention is that it grows quadratically as the input size increases. For example, take a prompt of 100 tokens, this would require 10,000 "attention connections". This was one of the main limitations with the first iteration of LLMs, the size of the prompt you could give it was capped. 
+However, one of the main drawbacks of standard attention is that it grows quadratically as the input size increases. For example, a prompt of 100 tokens requires computing 10,000 pairwise attention interactions. This was one of the main limitations with the first iteration of LLMs, the size of the prompt you could give it was capped. 
 
 In order to address this, researchers came up with more efficient attention mechanisms that didn't grow quadratically with the input size. Although they were more efficient, with less "attention connections," they weren't as powerful. 
 
@@ -262,6 +262,10 @@ A new regression task is sampled for every training example, preventing memoriza
 ---
 
 ## Results
+
+The plots below show model performance across training steps, depth, and context length.
+We compare prediction error (MSE) and cosine similarity with a one-step gradient descent baseline.
+
 <div class="plots-wrap">
   <iframe
     src="{{ 'plots/interactive_plots.html' | relative_url }}"
@@ -283,9 +287,12 @@ A new regression task is sampled for every training example, preventing memoriza
 ---
 
 ## Impact and Implications
-- Why this matters for model design
-- Efficiency vs. capability trade-offs
-- Potential applications or future work
+
+Our results suggest that global information aggregation is critical for in-context learning. Attention mechanisms that allow the query token to interact with all examples in the prompt, such as standard softmax and linear attention, consistently perform better on in-context regression tasks. In contrast, mechanisms that restrict token connectivity, such as sparse causal attention, struggle to learn the underlying relationships because the query cannot access all relevant input–output pairs.
+
+We also observe a clear tradeoff between efficiency and learning capability. While many alternative attention mechanisms are designed to reduce the quadratic cost of standard attention, not all preserve the properties needed for effective in-context learning. Approaches like grouped-query and low-rank attention retain much of the global structure and perform reasonably well, while more restrictive methods can significantly degrade performance.
+
+Finally, the strong performance of linear and kernelized attention supports the idea that transformers may perform optimization-like computations during the forward pass. These mechanisms closely align with gradient-descent updates in our experiments, suggesting that architectures designed to approximate optimization procedures may be particularly well suited for tasks that rely on learning from examples in the prompt.
 
 ### Project Scope & Limitations
 
@@ -307,7 +314,7 @@ Our results are purely experimental, we do not analyze model parameters or have 
 
 In‑context learning enables models to adapt at inference time without retraining. This is essential for few‑shot classification, rapid domain adaptation, retrieval‑augmented QA, tool use, code completion with evolving APIs, and personalized assistants that pick up user preferences from short prompts.
 
-Efficient attention variants matter because these applications benefit most from longer prompts, more examples, more documents, and richer context. If an attention mechanism preserves ICL while reducing memory and compute, it expands the usable context window and makes prompt‑driven behavior more scalable and cost‑effective.
+Efficient attention mechanisms are especially important for applications that rely on long prompts or many examples, where preserving in-context learning while reducing compute can significantly improve scalability.
 
 ---
 
